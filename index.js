@@ -1,6 +1,7 @@
 //to-dos
 /*
-0. spend an hour finding tutorials and alternative solutions to this vanilla JS for filtering a list
+0. Find basic tutorial on filtering lists, and creating filter buttons.
+0.5. Work backwards and get existing solution to work with LA's CSS and HTML
 
 1. change styling for filter buttons
     -make this easier to hover over as well
@@ -33,19 +34,30 @@ if(window.innerWidth <= 540 ) {
 const filterParent = filters.parentElement;
 
 // destructuring?
+// !!! Need to add hardcoded listing into data
+    // What does realJobList do?
 let data, main = document.querySelector('main'), realJobList = [];
+// let main = document.querySelector('main'), realJobList = [];
+// let data= document.querySelector('main'), realJobList = [];
+// let data = document.querySelector('main');
+// console.log(data) // undefined for some reason...
+// console.log(main) // undefined for some reason...
+// console.log(realJobList) // empty array
 
 // API call using fetch
 fetch('data.json')
-    .then(data => data.json())
-    .then(res => {
-        data = res;
-        createList(data);
-    });
+.then(data => data.json())
+.then(res => {
+    data = res;
+    createList(data);
+});
 
 // Create list of filtered tags?
 
+// console.log(data) // undefined for some reason...
+
 function createList(data) {
+    console.log(data)
 
     // filterParent.classList.add('none'); // leftover. Ugly.
 
@@ -65,7 +77,7 @@ function createList(data) {
             listFrag.appendChild(li);
         })
 
-        listing.innerHTML = `
+/*
         <div class="left">
             <div class="listing-img">
                 <img src="${el.logo}" alt="">
@@ -86,18 +98,27 @@ function createList(data) {
                 </div>
             </div>
         </div>
+*/
+
+        listing.innerHTML = `
+
         <ul class="job__filters">
         </ul>
         ` ;
 
-        // what do these three lines do???
+        // These lines enable filter buttons to work??
         listing.querySelector('.job__filters').append(listFrag);
         realJobList.push(listing);
         docf.append(listing);
+
+        // Test 3 lines above
+
     });
 
     // What is this?
     main.append(docf);
+    // console.log(main)
+    console.log(docf) // document fragment. What is this?
 
     // Nani?
     const filterBtns = document.querySelectorAll('.job__filters > .job__filter');

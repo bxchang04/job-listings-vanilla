@@ -17,258 +17,263 @@
 const filtersSelected = new Set();
 
 // queryselectors
-const filters = document.querySelector('.filter-cover');
-const clear = document.querySelector('.clear');
+const filters = document.querySelector(".filter-cover");
+const clear = document.querySelector(".clear");
 
-const bgImg = document.getElementById('bg-img');
+const bgImg = document.getElementById("bg-img");
 
 // media query?
-if(window.innerWidth <= 540 ) {
-    let bg = bgImg.src.split('/') ;
-    console.log(bg , bg.length );
-    bg[bg.length-1] = 'bg-header-mobile.svg' ;
-    bgImg.src = bg.join('/');
+if (window.innerWidth <= 540) {
+  let bg = bgImg.src.split("/");
+  console.log(bg, bg.length);
+  bg[bg.length - 1] = "bg-header-mobile.svg";
+  bgImg.src = bg.join("/");
 }
-
 
 const filterParent = filters.parentElement;
 
 // destructuring?
 // !!! Need to add hardcoded listing into data
-    // What does realJobList do?
-let data, main = document.querySelector('main'), realJobList = [];
-// let main = document.querySelector('main'), realJobList = [];
-// let data= document.querySelector('main'), realJobList = [];
-// let data = document.querySelector('main');
-// console.log(data) // undefined for some reason...
-// console.log(main) // undefined for some reason...
-// console.log(realJobList) // empty array
+// What does realJobList do?
+let data, main = document.querySelector("main"), realJobList = [];
+
 
 // API call using fetch
-fetch('data.json')
-.then(data => data.json())
-.then(res => {
+fetch("data.json")
+.then((data) => data.json())
+.then((res) => {
     data = res;
     createList(data);
 });
 
 // Create list of filtered tags?
 
-// console.log(data) // undefined for some reason...
 
 function createList(data) {
-    console.log(data)
 
-    // filterParent.classList.add('none'); // leftover. Ugly.
+  // filterParent.classList.add('none'); // leftover. Ugly.
 
-    let docf = document.createDocumentFragment();
-    data.forEach(el => {
-        let listing = document.createElement('div');
-        listing.classList.add('listing');
+  let docf = document.createDocumentFragment(); // creates a DOM tree?
+  data.forEach((el) => {
+    let listing = document.createElement("div");
+    listing.classList.add("listing");
 
-        let listFrag = document.createDocumentFragment();
-        listing.companyName = el.company
-        listing.data_filters = new Set([...el.languages, ...el.tools, el.role, el.level]);
-        listing.data_filters.forEach(l => {
-            let li = document.createElement('li');
-            li.classList.add('job__filter');
-            li.textContent = l;
-            li.setAttribute('data-filter', l);
-            listFrag.appendChild(li);
-        })
+    let listFrag = document.createDocumentFragment();
+    listing.companyName = el.company;
+    listing.data_filters = new Set([
+      ...el.languages,
+      ...el.tools,
+      el.role,
+      el.level,
+    ]);
+    listing.data_filters.forEach((l) => {
+      let li = document.createElement("li");
+      li.classList.add("job__filter");
+      li.textContent = l;
+      li.setAttribute("data-filter", l);
+      listFrag.appendChild(li);
+    });
 
-/*
+    listing.innerHTML = `
         <div class="left">
-            <div class="listing-img">
-                <img src="${el.logo}" alt="">
+        <div class="listing-img">
+            <img src="${el.logo}" alt="">
+        </div>
+        <div class="company-details">
+            <div class="company-nametags">
+                <h4 class="company-name">${el.company}</h4>
+                <div class="company-tags">
+                    <p class="company-tag-new" style="display:${
+                      el.new ? "block" : "none"
+                    }" >NEW</p>
+                    <p class="company-tag-ftrd" style="display:${
+                      el.featured ? "block" : "none"
+                    }" >FEATURED</p>
+                </div>
             </div>
-            <div class="company-details">
-                <div class="company-nametags">
-                    <h4 class="company-name">${el.company}</h4>
-                    <div class="company-tags">
-                        <p class="company-tag-new" style="display:${ el.new ? "block" : 'none'}" >NEW</p>
-                        <p class="company-tag-ftrd" style="display:${ el.featured ? "block" : 'none'}" >FEATURED</p>
-                    </div>
-                </div>
-                <h2 class="job__role">${el.position}</h2>
-                <div class="job__min-details">
-                    <p class="job__time">${el.postedAt}</p>
-                    <p class="contOrFull">${el.contract}</p>
-                    <p class="job__location">${el.location}</p>
-                </div>
+            <h2 class="job__role">${el.position}</h2>
+            <div class="job__min-details">
+                <p class="job__time">${el.postedAt}</p>
+                <p class="contOrFull">${el.contract}</p>
+                <p class="job__location">${el.location}</p>
             </div>
         </div>
-*/
-
-        listing.innerHTML = `
+    </div>
 
         <ul class="job__filters">
         </ul>
-        ` ;
+        `;
 
-        // These lines enable filter buttons to work??
-        listing.querySelector('.job__filters').append(listFrag);
-        realJobList.push(listing);
-        docf.append(listing);
+    // These lines enable filter buttons to work??
+    listing.querySelector(".job__filters").append(listFrag);
+    realJobList.push(listing);
+    docf.append(listing);
 
-        // Test 3 lines above
+    // Test 3 lines above
+  });
 
+  // What is this?
+  main.append(docf);
+  // console.log(main)
+
+  // Nani?
+  const filterBtns = document.querySelectorAll(".job__filters > .job__filter");
+  const filterBtns2 = document.querySelectorAll(".job__filters button"); // for learning purposes // experiment here!
+
+  filterBtns.forEach((el) => {
+    el.addEventListener("click", (ev) => {
+      addFilter(el.dataset.filter);
     });
+  });
 
-    // What is this?
-    main.append(docf);
-    // console.log(main)
-    console.log(docf) // document fragment. What is this?
-
-    // Nani?
-    const filterBtns = document.querySelectorAll('.job__filters > .job__filter');
-
-    filterBtns.forEach(el => {
-        el.addEventListener('click', ev => {
-            addFilter(el.dataset.filter);
-        })
-    })
+// For learning
+  filterBtns2.forEach((el) => {
+    el.addEventListener("click", (ev) => {
+      addFilter(el.dataset.filter);
+    });
+  });
+  
 }
 
 // Add event listeners for filter buttons
 
 function addFilter(filter) {
+  if (filtersSelected.has(filter)) {
+    return;
+  }
 
-    if (filtersSelected.has(filter)) {
-        return;
-    }
+  // Check if selected filters have none, there is nothing to filter, so add it back to the main space
+  if (filtersSelected.size == 0) {
+    filterParent.classList.remove("none");
+    main.classList.add("main-space");
+  }
 
-    if (filtersSelected.size == 0) {
-        filterParent.classList.remove('none');
-        main.classList.add('main-space') ;
-    }
+  let newFilter = document.createElement("div");
 
-    let newFilter = document.createElement('div');
+  newFilter.classList.add("filter");
 
-    newFilter.classList.add('filter');
+  newFilter.textContent = filter;
 
-    newFilter.textContent = filter;
+  newFilter.addEventListener("click", filterClick);
 
-    newFilter.addEventListener('click', filterClick);
+  newFilter.setAttribute("data-filter", filter);
 
-    newFilter.setAttribute('data-filter', filter);
+  filters.append(newFilter);
 
-    filters.append(newFilter);
+  filtersSelected.add(filter);
 
-    filtersSelected.add(filter);
-
-    filterJobs();
-
+  filterJobs();
 }
 
 // Actually filter each job based on filtersSelected
-    // When commented out:
-        // clear button breaks
-        // jobs aren't filtered on click
+// When commented out:
+// clear button breaks
+// jobs aren't filtered on click
 
 function filterJobs() {
-
-    realJobList.forEach(job => {
-
-        // uses helper functions
-        if (check(filtersSelected, job.data_filters)) { 
-            showJob(job);
-        } else {
-            hideJob(job);
-        }
-    })
+  realJobList.forEach((job) => {
+    // uses helper functions
+    if (check(filtersSelected, job.data_filters)) {
+      showJob(job);
+    } else {
+      hideJob(job);
+    }
+  });
 }
 
 // Added to filters div (onClick event for event listeners above)
-    // Test: When commented out, tags aren't added to list on click. Also, clear button fails to close list (and remove buttons?).
+// Test: When commented out, tags aren't added to list on click. Also, clear button fails to close list (and remove buttons?).
 
 function filterClick(ev) {
+  filtersSelected.delete(this.dataset.filter);
 
-    filtersSelected.delete(this.dataset.filter);
+  console.log(filtersSelected); // not sure why this doesn't output to console
 
-    console.log(filtersSelected) ; // not sure why this doesn't output to console
-
-    if (filtersSelected.size == 0) {
-        filterParent.classList.add('none');
-        main.classList.remove('main-space') ;
-    }
-    this.remove();
-    filterJobs(this.dataset.filter);
+  if (filtersSelected.size == 0) {
+    filterParent.classList.add("none");
+    main.classList.remove("main-space");
+  }
+  this.remove();
+  filterJobs(this.dataset.filter);
 }
 
 // Transitions. !!! Be careful about copying verbatim here!!!
 
-function setTransitionEvent(){
-    var t;
-    var el = document.createElement('fakeelement');
-    var transitions = {
-      'WebkitTransition' :'webkitTransitionEnd',
-      'MozTransition'    :'transitionend',
-      'MSTransition'     :'msTransitionEnd',
-      'OTransition'      :'oTransitionEnd',
-      'transition'       :'transitionEnd'
+function setTransitionEvent() {
+  var t;
+  var el = document.createElement("fakeelement");
+  var transitions = {
+    WebkitTransition: "webkitTransitionEnd",
+    MozTransition: "transitionend",
+    MSTransition: "msTransitionEnd",
+    OTransition: "oTransitionEnd",
+    transition: "transitionEnd",
+  };
+
+  for (t in transitions) {
+    if (el.style[t] !== undefined) {
+      return transitions[t];
     }
-  
-    for(t in transitions){
-      if( el.style[t] !== undefined ){
-        return transitions[t];
-      }
-    }
+  }
 }
 
 // Begin: Helper functions
 function hideJob(job) {
-    let event = setTransitionEvent() ;
-    job.classList.add('fade');
-    job.addEventListener(`${event}`, ev => job.classList.add('none'), { once: true });
+  let event = setTransitionEvent();
+  job.classList.add("fade");
+  job.addEventListener(`${event}`, (ev) => job.classList.add("none"), {
+    once: true,
+  });
 }
-
 
 function showJob(job) {
-    job.classList.remove('none');
-    job.classList.add('fadeAnim');
-    job.addEventListener('animationend', ev => job.classList.remove('fade', 'fadeAnim'), { once: true })
+  job.classList.remove("none");
+  job.classList.add("fadeAnim");
+  job.addEventListener(
+    "animationend",
+    (ev) => job.classList.remove("fade", "fadeAnim"),
+    { once: true }
+  );
 }
 
-
 function check(set1, set2) {
-    // to check if set2 contains all elements of set1
-    let bool = false;
-    if (set1.size == 0) {
-        return true;
+  // to check if set2 contains all elements of set1
+  let bool = false;
+  if (set1.size == 0) {
+    return true;
+  }
+  let i = 0;
+  set1.forEach((s) => {
+    if (i == 0) {
+      if (set2.has(s)) {
+        bool = true;
+      } else {
+        i++;
+        bool = false;
+      }
     }
-    let i = 0;
-    set1.forEach(s => {
-        if (i == 0) {
-            if (set2.has(s)) {
-                bool = true;
-            } else {
-                i++;
-                bool = false;
-            }
-        }
-    })
-    return bool;
+  });
+  return bool;
 }
 // End: Helper functions
 
 // Begin: Clear button logic
-    //for cleanup?
-clear.addEventListener('click', ev => {
-    if (filtersSelected.size == 0) {
-        return;
-    }
-    filtersSelected.clear();
-    filterJobs();
-    clearFilters();
-})
+//for cleanup?
+clear.addEventListener("click", (ev) => {
+  if (filtersSelected.size == 0) {
+    return;
+  }
+  filtersSelected.clear();
+  filterJobs();
+  clearFilters();
+});
 
 function clearFilters() {
-    while (filters.firstElementChild) {
-        filters.lastElementChild.remove();
-    }
-    filterParent.classList.add('none');
-    main.classList.remove('main-space') ;
+  while (filters.firstElementChild) {
+    filters.lastElementChild.remove();
+  }
+  filterParent.classList.add("none");
+  main.classList.remove("main-space");
 }
 
 // End: Clear button logic

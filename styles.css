@@ -98,7 +98,8 @@ address{
 
 .main-content{
     max-width: 72.5rem;
-    margin: 5rem auto
+    margin: 5rem auto;
+    padding: 4rem 0;
 }
 
 /* changed from listing to job, added transition */
@@ -328,6 +329,10 @@ width: 0;
 
 /* Most tablets and above */
 @media (min-width: 768px){
+    .main-content{
+        padding: 0 0;
+    }
+
     .filters{
         width: 640px;
     }

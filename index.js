@@ -1,11 +1,4 @@
-//bugs
-/*
-0. Articles jumping around
-1. visual bug on top.
-2. delete comments
-3. remove transitions
-
-*/
+// Vanilla JavaScript solution Benjamin X. Chang. Inspired by https://github.com/varunbhalla19/static-job-listings-frontendmentor
 
 // Filters
 const filtersSelected = new Set();
@@ -14,23 +7,9 @@ const filtersSelected = new Set();
 const filters = document.querySelector(".filter-cover");
 const clear = document.querySelector(".clear");
 
-const bgImg = document.getElementById("bg-img");
-
-// media query?
-if (window.innerWidth <= 540) {
-  let bg = bgImg.src.split("/");
-  console.log(bg, bg.length);
-  bg[bg.length - 1] = "bg-header-mobile.svg";
-  bgImg.src = bg.join("/");
-}
-
 const filterParent = filters.parentElement;
 
-// destructuring?
-// !!! Need to add hardcoded listing into data
-// What does realJobList do?
 let data, main = document.querySelector("main"), realJobList = [];
-
 
 // API call using fetch
 fetch("data.json")
@@ -40,14 +19,10 @@ fetch("data.json")
     createList(data);
 });
 
-// Create list of filtered tags?
-
-
+// Create list of filter buttons and assign them to each job listing
 function createList(data) {
 
-  // filterParent.classList.add('none'); // leftover. Ugly.
-
-  let docf = document.createDocumentFragment(); // creates a DOM tree?
+  let docf = document.createDocumentFragment();
   data.forEach((el) => {
     let listing = document.createElement("article");
     listing.classList.add("job");
@@ -71,8 +46,7 @@ function createList(data) {
       li.appendChild(btn);
     });
 
-    // check against screenshots if needed
-
+    // Dynamically generate all job listings in data.json
     listing.innerHTML = 
     `
     <header class="job__header" style="background-image: url(${el.logo})">
@@ -104,30 +78,18 @@ function createList(data) {
     </ul>
     `;
 
-    // These lines enable filter buttons to work??
     listing.querySelector(".job__filters").append(listFrag);
     realJobList.push(listing);
     docf.append(listing);
-
-    // Test 3 lines above
   });
 
-  // What is this?
+  // Append jobs to main element
   main.append(docf);
-  // console.log(main)
-
-  // Nani?
-  const filterBtns = document.querySelectorAll(".job__filters > .job__filter");
-  const filterBtns2 = document.querySelectorAll(".job__filters button"); // for learning purposes // experiment here!
+  
+  // Add event listeners to filter buttons on each listing
+  const filterBtns = document.querySelectorAll(".job__filters button"); 
 
   filterBtns.forEach((el) => {
-    el.addEventListener("click", (ev) => {
-      addFilter(el.dataset.filter);
-    });
-  });
-
-// For learning
-  filterBtns2.forEach((el) => {
     el.addEventListener("click", (ev) => {
       addFilter(el.dataset.filter);
     });
@@ -135,17 +97,16 @@ function createList(data) {
   
 }
 
-// Add event listeners for filter buttons
-
+// Add event listeners to selected filter, then filter all job listings
 function addFilter(filter) {
   if (filtersSelected.has(filter)) {
     return;
   }
 
-  // Check if selected filters have none, there is nothing to filter, so add it back to the main space
+  // If no filters are selected, display all job listings
   if (filtersSelected.size == 0) {
     filterParent.classList.remove("none");
-    main.classList.add("main-space");
+    main.classList.add('main-space') ; // not sure what this does
   }
 
   let newFilter = document.createElement("div");
@@ -162,17 +123,14 @@ function addFilter(filter) {
 
   filtersSelected.add(filter);
 
+  // Filter all job listings
   filterJobs();
 }
 
-// Actually filter each job based on filtersSelected
-// When commented out:
-// clear button breaks
-// jobs aren't filtered on click
-
+// Filter job listing based on selected filters
 function filterJobs() {
   realJobList.forEach((job) => {
-    // uses helper functions
+    // Check filters selected; if arg2 contains all elements of arg1, show job
     if (check(filtersSelected, job.data_filters)) {
       showJob(job);
     } else {
@@ -181,47 +139,27 @@ function filterJobs() {
   });
 }
 
-// Removes selected filter on click
-
+// Remove selected filter on click
 function filterClick(ev) {
   filtersSelected.delete(this.dataset.filter);
 
-  console.log(filtersSelected); // not sure why this doesn't output to console
+  console.log(filtersSelected);
 
   if (filtersSelected.size == 0) {
     filterParent.classList.add("none");
-    main.classList.remove("main-space");
+    main.classList.remove('main-space') ; // not sure what this does
   }
   this.remove();
+
+  // Filter all job listings
   filterJobs(this.dataset.filter);
 }
 
-// Transitions. !!! Don't use verbatim!!!
-
-function setTransitionEvent() {
-  var t;
-  var el = document.createElement("fakeelement");
-  var transitions = {
-    WebkitTransition: "webkitTransitionEnd",
-    MozTransition: "transitionend",
-    MSTransition: "msTransitionEnd",
-    OTransition: "oTransitionEnd",
-    transition: "transitionEnd",
-  };
-
-  for (t in transitions) {
-    if (el.style[t] !== undefined) {
-      return transitions[t];
-    }
-  }
-}
 
 // Begin: Helper functions
 function hideJob(job) {
-  let event = setTransitionEvent();
-//   let event = "transitionEnd";
   job.classList.add("fade");
-  job.addEventListener(`${event}`, (ev) => job.classList.add("none"), {
+  job.addEventListener(`webkitTransitionEnd`, (ev) => job.classList.add("none"), {
     once: true,
   });
 }
@@ -258,7 +196,6 @@ function check(set1, set2) {
 // End: Helper functions
 
 // Begin: Clear button logic
-//for cleanup?
 clear.addEventListener("click", (ev) => {
   if (filtersSelected.size == 0) {
     return;
@@ -273,7 +210,6 @@ function clearFilters() {
     filters.lastElementChild.remove();
   }
   filterParent.classList.add("none");
-  main.classList.remove("main-space");
+  main.classList.remove('main-space') ; // not sure what this does
 }
-
 // End: Clear button logic

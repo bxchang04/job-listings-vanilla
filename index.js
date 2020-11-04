@@ -74,35 +74,47 @@ function createList(data) {
       listFrag.appendChild(li);
     });
 
-    listing.innerHTML = `
-        <div class="left">
-        <div class="listing-img">
-            <img src="${el.logo}" alt="">
-        </div>
-        <div class="company-details">
-            <div class="company-nametags">
-                <h4 class="company-name">${el.company}</h4>
-                <div class="company-tags">
-                    <p class="company-tag-new" style="display:${
-                      el.new ? "block" : "none"
-                    }" >NEW</p>
-                    <p class="company-tag-ftrd" style="display:${
-                      el.featured ? "block" : "none"
-                    }" >FEATURED</p>
-                </div>
+    listing.innerHTML = 
+    `
+    <article class="job listing">
+        <header class="job__header" style="background-image: ${el.logo}">
+            <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
+            <p class="job__meta">
+                <span class="job__company-name">${el.company}</span>
+                <em 
+                    class="badge badge--primary" 
+                    style="display:${el.new ? "block" : "none"}"
+                >
+                    >New!
+                </em>
+                <em 
+                    class="badge badge--secondary"
+                    style="display:${el.featured ? "block" : "none"}"
+                >
+                    Featured
+                </em>
+            </p>
+            
+            <div class="job__details">
+                <time class="job__time">${el.postedAt}</time>
+                <span class="job__type">${el.contract}</span>
+                <address class="job__location">${el.location}</address>
             </div>
-            <h2 class="job__role">${el.position}</h2>
-            <div class="job__min-details">
-                <p class="job__time">${el.postedAt}</p>
-                <p class="contOrFull">${el.contract}</p>
-                <p class="job__location">${el.location}</p>
-            </div>
-        </div>
-    </div>
+        </header>
+    </article>
 
-        <ul class="job__filters">
-        </ul>
-        `;
+    <ul class="job__filters">
+    </ul>
+    `;
+
+//     <ul class="job__tags job__filters">
+//     <li><button type="button" class="button job__filter" data-filter="Frontend">Frontend</button></li>
+//     <li><button type="button" class="button" data-filter="Senior">Senior</button></li>
+//     <li><button type="button" class="button" data-filter="HTML">HTML</button></li>
+//     <li><button type="button" class="button" data-filter="CSS">CSS</button></li>
+//     <li><button type="button" class="button" data-filter="JavaScript">JavaScript</button></li>
+// </ul>
+    
 
     // These lines enable filter buttons to work??
     listing.querySelector(".job__filters").append(listFrag);

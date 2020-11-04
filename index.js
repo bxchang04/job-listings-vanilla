@@ -48,8 +48,9 @@ function createList(data) {
 
   let docf = document.createDocumentFragment(); // creates a DOM tree?
   data.forEach((el) => {
-    let listing = document.createElement("div");
-    listing.classList.add("article");
+    let listing = document.createElement("article");
+    listing.classList.add("job");
+    listing.classList.add("listing");
 
     let listFrag = document.createDocumentFragment();
     listing.companyName = el.company;
@@ -73,32 +74,30 @@ function createList(data) {
 
     listing.innerHTML = 
     `
-    <article class="job listing">
-        <header class="job__header" style="background-image: url("${el.logo}")">
-            <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
-            <p class="job__meta">
-                <span class="job__company-name">${el.company}</span>
-                <em 
-                    class="badge badge--primary" 
-                    style="display:${el.new ? "block" : "none"}"
-                >
-                    >New!
-                </em>
-                <em 
-                    class="badge badge--secondary"
-                    style="display:${el.featured ? "block" : "none"}"
-                >
-                    Featured
-                </em>
-            </p>
-            
-            <div class="job__details">
-                <time class="job__time">${el.postedAt}</time>
-                <span class="job__type">${el.contract}</span>
-                <address class="job__location">${el.location}</address>
-            </div>
-        </header>
-    </article>
+    <header class="job__header" style="background-image: url("${el.logo}")">
+        <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
+        <p class="job__meta">
+            <span class="job__company-name">${el.company}</span>
+            <em 
+                class="badge badge--primary" 
+                style="display:${el.new ? "block" : "none"}"
+            >
+                >New!
+            </em>
+            <em 
+                class="badge badge--secondary"
+                style="display:${el.featured ? "block" : "none"}"
+            >
+                Featured
+            </em>
+        </p>
+        
+        <div class="job__details">
+            <time class="job__time">${el.postedAt}</time>
+            <span class="job__type">${el.contract}</span>
+            <address class="job__location">${el.location}</address>
+        </div>
+    </header>
 
     <ul class="job__tags job__filters">
     </ul>

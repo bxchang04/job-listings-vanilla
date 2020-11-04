@@ -1,11 +1,9 @@
 //bugs
 /*
-1a. images and padding not consistent
-1b. image logo doesn't shrink
-1c. image logo doesn't align left
-2. Fix general styling
-    2a. filter buttons
-    2b. filter header box
+0. Articles jumping around
+1. visual bug on top.
+2. delete comments
+3. remove transitions
 
 */
 

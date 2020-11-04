@@ -10,19 +10,12 @@ body{
 */
 
 /* Begin: needed for filter box on top */
-/*
+
 header{
-    height: 9rem;
-    background-color: hsl(180, 29%, 50%)   ;
     position: relative;
 }
 
 
-header > img {
-    width: 100%;
-    height: 100%;
-}
-*/
 /* End: needed for filter box on top */
 
 
@@ -65,6 +58,7 @@ body{
     background-color: var(--light);
     color: var(--black);
     font-family: Sora, sans-serif;
+    min-width:368px;
 }
 
 a{
@@ -197,6 +191,100 @@ address{
     padding: .375rem
 }
 
+.job__filters{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  /* try changing from li to button */
+.job__filters > li {
+margin-top: 0.5rem;
+}
+
+.job__filter , .filter {
+list-style: none;
+font-size: 0.9rem;
+letter-spacing: 1.1px;
+color: hsl(180, 29%, 50%) ;
+padding: 6px 12px;
+margin: 0 0 0 0.5rem;
+border-radius: 4px;
+font-weight: bold;
+background-color: hsl(180, 52%, 96%) ;
+cursor : pointer ;
+position: relative;
+}
+
+.filter{
+    margin-top: 0.5rem;
+  }
+  
+.filter:hover{
+background-color: hsl(180, 14%, 20%) ;
+color: hsl(180, 52%, 96%);
+}
+
+.job__filter:hover{
+color: hsl(180, 52%, 96%);
+background-color: hsl(180, 29%, 50%) ;
+}
+
+.filters{
+padding: 2rem 2rem;
+position: absolute;
+background-color: white;
+bottom: 0;
+left: 50%;
+transform: translate(-50% , 50%);
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 80%;
+}
+
+.filter-cover {
+display: flex;
+margin-right: 5rem;
+flex-wrap: wrap;
+}
+
+.clear {
+font-size: 0.9rem;
+letter-spacing: 1.1px;
+color: hsl(180, 29%, 50%) ;
+padding: 1px 0;
+font-weight: bold;
+cursor : pointer ;
+background-color: transparent;
+border-bottom: 2px solid transparent;
+margin-top: 0.5rem;
+}
+
+.clear:hover{
+border-bottom: 1px solid #000;
+}
+
+.fade{
+opacity: 0;
+}
+
+.none{
+display: none;
+} 
+
+.fadeAnim{
+animation: fadeIn 100ms ease forwards;
+}
+@keyframes fadeIn {
+to {
+    opacity: 1;
+}
+}
+
+::-webkit-scrollbar {
+width: 0;
+}
+
 .button{
     padding: .5em .75em;
     font-size: 0.8125rem;
@@ -240,20 +328,26 @@ address{
 
 /* Most tablets and above */
 @media (min-width: 768px){
+    .filters{
+        width: 640px;
+    }
+
     .job{
         flex-direction: row;
         align-items: center;
-        padding: 2.125rem;
+        justify-content: center;
+        padding: 2.5rem;
     }
     
     .job__header{
         padding: 0 3rem 1rem 7rem;
         margin-top: 0;
-        background-size: auto
+        background-size: auto;
+        background-position: left center;
     }
     
     .job__title-link::after{
-        /* top: -1rem; */
+        top: -1rem;
     }
     
     .job__tags{

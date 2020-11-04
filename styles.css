@@ -146,6 +146,12 @@ address{
     position: relative
 }
 
+.job__logo{
+    display: inline;
+    outline: red solid; 
+    margin-right: 1.5rem;
+}
+
 .job__title{
     margin: 0.375em 0;
     font-size: 1.1875rem
@@ -170,7 +176,7 @@ address{
 }
 
 .job__meta{
-    order: -1;
+    /* order: -1; */
     margin: 0;
 }
 

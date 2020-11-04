@@ -1,8 +1,9 @@
 //bugs
 /*
-1. image logo not appearing
+1. image logo stretched on mobile view
 2. Fix general styling
-3. Test why logo doesn't offset on shrink (except in mobile mode)
+    2a. filter buttons
+    2b. filter header box
 
 */
 
@@ -73,20 +74,20 @@ function createList(data) {
     // check against screenshots if needed
 
     listing.innerHTML = 
-    `
-    <header class="job__header" style="background-image: url("${el.logo}")">
+    `<img class="job__logo" src="${el.logo}">
+    <header class="job_header">
         <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
         <p class="job__meta">
             <span class="job__company-name">${el.company}</span>
             <em 
                 class="badge badge--primary" 
-                style="display:${el.new ? "block" : "none"}"
+                style="display:${el.new ? "inline-block" : "none"}"
             >
                 >New!
             </em>
             <em 
                 class="badge badge--secondary"
-                style="display:${el.featured ? "block" : "none"}"
+                style="display:${el.featured ? "inline-block" : "none"}"
             >
                 Featured
             </em>

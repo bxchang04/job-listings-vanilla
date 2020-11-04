@@ -1,6 +1,8 @@
 //bugs
 /*
-1. image logo stretched on mobile view
+1a. images and padding not consistent
+1b. image logo doesn't shrink
+1c. image logo doesn't align left
 2. Fix general styling
     2a. filter buttons
     2b. filter header box
@@ -51,7 +53,6 @@ function createList(data) {
   data.forEach((el) => {
     let listing = document.createElement("article");
     listing.classList.add("job");
-    listing.classList.add("listing");
 
     let listFrag = document.createDocumentFragment();
     listing.companyName = el.company;
@@ -64,6 +65,7 @@ function createList(data) {
     listing.data_filters.forEach((l) => {
       let li = document.createElement("li");
       let btn = document.createElement("button");
+      btn.classList.add("button");
       btn.classList.add("job__filter");
       btn.textContent = l;
       btn.setAttribute("data-filter", l);
@@ -74,8 +76,8 @@ function createList(data) {
     // check against screenshots if needed
 
     listing.innerHTML = 
-    `<img class="job__logo" src="${el.logo}">
-    <header class="job__header">
+    `
+    <header class="job__header" style="background-image: url(${el.logo})">
         <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
         <p class="job__meta">
             <span class="job__company-name">${el.company}</span>
@@ -83,7 +85,7 @@ function createList(data) {
                 class="badge badge--primary" 
                 style="display:${el.new ? "inline-block" : "none"}"
             >
-                >New!
+                New!
             </em>
             <em 
                 class="badge badge--secondary"
@@ -181,8 +183,7 @@ function filterJobs() {
   });
 }
 
-// Added to filters div (onClick event for event listeners above)
-// Test: When commented out, tags aren't added to list on click. Also, clear button fails to close list (and remove buttons?).
+// Removes selected filter on click
 
 function filterClick(ev) {
   filtersSelected.delete(this.dataset.filter);
@@ -197,7 +198,7 @@ function filterClick(ev) {
   filterJobs(this.dataset.filter);
 }
 
-// Transitions. !!! Be careful about copying verbatim here!!!
+// Transitions. !!! Don't use verbatim!!!
 
 function setTransitionEvent() {
   var t;
@@ -220,6 +221,7 @@ function setTransitionEvent() {
 // Begin: Helper functions
 function hideJob(job) {
   let event = setTransitionEvent();
+//   let event = "transitionEnd";
   job.classList.add("fade");
   job.addEventListener(`${event}`, (ev) => job.classList.add("none"), {
     once: true,

@@ -1,15 +1,8 @@
-//to-dos
+//bugs
 /*
-0. Find basic tutorial on filtering lists, and creating filter buttons.
-0.5. Work backwards and get existing solution to work with LA's CSS and HTML
-
-1. change styling for filter buttons
-    -make this easier to hover over as well
-
-2. change clear button styling
-    -change inactive color as well
-
-3. add Sass
+1. image logo not appearing
+2. Fix general styling
+3. Test why logo doesn't offset on shrink (except in mobile mode)
 
 */
 
@@ -68,16 +61,20 @@ function createList(data) {
     ]);
     listing.data_filters.forEach((l) => {
       let li = document.createElement("li");
-      li.classList.add("job__filter");
-      li.textContent = l;
-      li.setAttribute("data-filter", l);
+      let btn = document.createElement("button");
+      btn.classList.add("job__filter");
+      btn.textContent = l;
+      btn.setAttribute("data-filter", l);
       listFrag.appendChild(li);
+      li.appendChild(btn);
     });
+
+    // check against screenshots if needed
 
     listing.innerHTML = 
     `
     <article class="job listing">
-        <header class="job__header" style="background-image: ${el.logo}">
+        <header class="job__header" style="background-image: url("${el.logo}")">
             <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
             <p class="job__meta">
                 <span class="job__company-name">${el.company}</span>
@@ -103,18 +100,9 @@ function createList(data) {
         </header>
     </article>
 
-    <ul class="job__filters">
+    <ul class="job__tags job__filters">
     </ul>
     `;
-
-//     <ul class="job__tags job__filters">
-//     <li><button type="button" class="button job__filter" data-filter="Frontend">Frontend</button></li>
-//     <li><button type="button" class="button" data-filter="Senior">Senior</button></li>
-//     <li><button type="button" class="button" data-filter="HTML">HTML</button></li>
-//     <li><button type="button" class="button" data-filter="CSS">CSS</button></li>
-//     <li><button type="button" class="button" data-filter="JavaScript">JavaScript</button></li>
-// </ul>
-    
 
     // These lines enable filter buttons to work??
     listing.querySelector(".job__filters").append(listFrag);

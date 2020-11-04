@@ -56,7 +56,7 @@ function createList(data) {
   let docf = document.createDocumentFragment(); // creates a DOM tree?
   data.forEach((el) => {
     let listing = document.createElement("div");
-    listing.classList.add("listing");
+    listing.classList.add("article");
 
     let listFrag = document.createDocumentFragment();
     listing.companyName = el.company;

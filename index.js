@@ -75,7 +75,7 @@ function createList(data) {
 
     listing.innerHTML = 
     `<img class="job__logo" src="${el.logo}">
-    <header class="job_header">
+    <header class="job__header">
         <h2 class="job__title"><a href="#" class="job__title-link">${el.position}</a></h2>
         <p class="job__meta">
             <span class="job__company-name">${el.company}</span>

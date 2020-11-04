@@ -149,7 +149,7 @@ address{
 .job__logo{
     display: inline;
     outline: red solid; 
-    margin-right: 1.5rem;
+    transform: translateY(-10%); /* buggy on mid res */
 }
 
 .job__title{
@@ -176,7 +176,7 @@ address{
 }
 
 .job__meta{
-    /* order: -1; */
+    order: -1;
     margin: 0;
 }
 
@@ -268,7 +268,7 @@ address{
     }
     
     .job__header{
-        padding: 0 3rem .5rem 7rem;
+        padding: 0 3rem .5rem 1.5rem;
         margin-top: 0;
         background-size: auto
     }
